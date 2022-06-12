@@ -11,6 +11,7 @@ namespace projekatdame
         static void Main(string[] args)
         {
             int N = int.Parse(Console.ReadLine());
+            //test
         }
     }
 }
