@@ -12,8 +12,18 @@ namespace projekatdame
         {
 
         }
-        static bool Proveri(int[,]matrica, int x, int y, int a)//marko!
+        static bool Bezbedan(int[,] tabla, int red, int kolona, int n)//marko!(to sam ja)
         {
+            int i, j;
+            for (i = 0; i < kolona; i++)
+                if (tabla[red, i] == 1)
+                    return false;
+            for (i = red, j = kolona; i >= 0 && j >= 0; i--, j--)
+                if (tabla[i, j] == 1)
+                    return false;
+            for (i = red, j = kolona; j >= 0 && i < n; i++, j--)
+                if (tabla[i, j] == 1)
+                    return false;
             return true;
         }
         static bool NadjiResenje(int[,] tabla, int kolona, int n)
@@ -24,7 +34,7 @@ namespace projekatdame
             }
             for (int pr = 0; pr < n; pr++)
             {
-                if (Proveri(tabla, pr, kolona, n))//marko
+                if (Bezbedan(tabla, pr, kolona, n))//marko(to sam ja!)
                 {
                     tabla[pr, kolona] = 1;
                     if (NadjiResenje(tabla, kolona + 1, n) == true)
@@ -45,3 +55,4 @@ namespace projekatdame
         }
     }
 }
+
