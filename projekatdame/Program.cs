@@ -12,7 +12,7 @@ namespace projekatdame
         {
 
         }
-        static bool Proveri(int[,]matrica, int x, int y, int a)//marko
+        static bool Proveri(int[,]matrica, int x, int y, int a)//marko!
         {
             return true;
         }
