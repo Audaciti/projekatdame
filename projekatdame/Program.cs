@@ -1,18 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 
 namespace projekatdame
 {
     class Program
     {
-        static void Ispisi(int[,] matrica, int a)//mika
+        static int brojac = 0;
+        static StreamWriter ispis = new StreamWriter("фајл.txt");
+        static void Ispisi(int[,] tabla, int n)
         {
-
+            ispis.WriteLine("Slucaj broj " + ++brojac);
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = 0; j < n; j++)
+                    ispis.Write(" " + tabla[i, j] + " ");
+                ispis.WriteLine();
+            }
+            ispis.WriteLine();
         }
-        static bool Bezbedan(int[,] tabla, int red, int kolona, int n)//marko!(to sam ja)
+        static bool Bezbedan(int[,] tabla, int red, int kolona, int n)
         {
             int i, j;
             for (i = 0; i < kolona; i++)
@@ -34,12 +40,12 @@ namespace projekatdame
             }
             for (int pr = 0; pr < n; pr++)
             {
-                if (Bezbedan(tabla, pr, kolona, n))//marko(to sam ja!)
+                if (Bezbedan(tabla, pr, kolona, n))
                 {
                     tabla[pr, kolona] = 1;
                     if (NadjiResenje(tabla, kolona + 1, n) == true)
                     {
-                        Ispisi(tabla, n);//mika
+                        Ispisi(tabla, n);
                     }
                     tabla[pr, kolona] = 0;
                 }
@@ -51,7 +57,7 @@ namespace projekatdame
             int n = int.Parse(Console.ReadLine());
             int[,] tabla = new int[n, n];
             NadjiResenje(tabla, 0, n);
-
+            ispis.Close();
         }
     }
 }
