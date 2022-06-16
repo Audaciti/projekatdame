@@ -6,9 +6,7 @@ namespace projekatdame
     class Program
     {
         static int brojac = 0; //brojac koji broji svaki slucaj
-        static string nazivfajla = "fajl" + DateTime.Now.ToString("yyyyMMddHHmmss")+".txt"; //naziv fajla sadrzi datum kada ce tekstualni fajl biti ispisan
-        static StreamWriter ispis = new StreamWriter(nazivfajla); //definisanje streamwritera koji pravi novi fajl u kome ce biti ispis
-        static void Ispisi(int[,] tabla) //Metod koji ispisuje funkciju
+        static void Ispisi(int[,] tabla, StreamWriter ispis) //Metod koji ispisuje funkciju
         {
             int n = tabla.GetLength(0);
             ispis.WriteLine("Slucaj broj " + ++brojac);
@@ -20,8 +18,7 @@ namespace projekatdame
             }
             ispis.WriteLine();
         }
-        static bool Bezbedan(int[,] tabla, int red, int kolona) /*Funkcija koja gleda da li se dama moze postaviti na odredjeno mesto.
-                                                                 Dovoljno je gledati samo levu stranu, jer dame postavljamo od nulte do n-te kolone*/
+        static bool Bezbedan(int[,] tabla, int red, int kolona) /*Funkcija koja gleda da li se dama moze postaviti na odredjeno mesto.                                                     Dovoljno je gledati samo levu stranu, jer dame postavljamo od nulte do n-te kolone*/
         {
             int i, j;
             int n = tabla.GetLength(0);
@@ -46,7 +43,7 @@ namespace projekatdame
                 }
             return true; //ukoliko se ne nalazi dama ni na jednoj dijagonali niti u istom redu, vracamo true i dama se moze postaviti na zeljeno mesto [i,j]
         }
-        static bool NadjiResenje(int[,] tabla, int kolona)//metoda koja nalazi resenja
+        static bool NadjiResenje(int[,] tabla, int kolona, StreamWriter ispis)//metoda koja nalazi resenja
         {
             int n = tabla.GetLength(0);//broj dama
             if (kolona >= n) //ukoliko smo popunili poslednju kolonu, dosli smo do kraja i ovo je tacno resenje
@@ -58,9 +55,9 @@ namespace projekatdame
                 if (Bezbedan(tabla, i, kolona)) //gledamo da li moze da se postavi
                 {
                     tabla[i, kolona] = 1; //stavljamo damu
-                    if (NadjiResenje(tabla, kolona + 1) == true) //ukoliko je resenje tacno, ispisacemo ga
+                    if (NadjiResenje(tabla, kolona + 1, ispis) == true) //ukoliko je resenje tacno, ispisacemo ga
                     {
-                        Ispisi(tabla);
+                        Ispisi(tabla,ispis);
                     }
                     tabla[i, kolona] = 0; //ako ne uspemo da dodjemo do poslednje kolone, znaci da ne dolazimo do resenja; BACKTRACKING, brisemo poslednju postavljenu damu i idemo dalje
                 }
@@ -69,10 +66,12 @@ namespace projekatdame
         }
         static void Main(string[] args)
         {
+            string nazivfajla = "fajl" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".txt"; //naziv fajla sadrzi datum kada ce tekstualni fajl biti ispisan
+            StreamWriter ispis = new StreamWriter(nazivfajla); //definisanje streamwritera koji pravi novi fajl u kome ce biti ispis
             Console.Write("Unesite broj dama: ");
             int n = int.Parse(Console.ReadLine()); //broj dama/sirina/duzina table
             int[,] tabla = new int[n, n];
-            NadjiResenje(tabla, 0); //pozivamo metodu koja ima zadatak da pronadje sva resenja, uzimamo tablu i pocetnu kolonu
+            NadjiResenje(tabla, 0, ispis); //pozivamo metodu koja ima zadatak da pronadje sva resenja, uzimamo tablu i pocetnu kolonu
             if (brojac > 0)
             {
                 Console.WriteLine("Broj resenja: " + brojac);
@@ -86,4 +85,3 @@ namespace projekatdame
         }
     }
 }
-
