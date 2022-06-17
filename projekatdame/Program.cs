@@ -46,18 +46,18 @@ namespace projekatdame
         static bool NadjiResenje(int[,] tabla, int kolona, StreamWriter ispis)//metoda koja nalazi resenja
         {
             int n = tabla.GetLength(0);//broj dama
-            if (kolona >= n) //ukoliko smo popunili poslednju kolonu, dosli smo do kraja i ovo je tacno resenje
+            if (kolona >= n) //ukoliko smo popunili poslednju kolonu, dosli smo do kraja i vracamo true
             {
                 return true;
             }
-            for (int i = 0; i < n; i++) //gledamo ovu kolonu i pokusacemo da postavimo damu na svim mestima jednu po jednu
+            for (int i = 0; i < n; i++) //gledamo sve elemente u toj koloni i pokusacemo da postavimo damu na svim mestima jednu po jednu
             {
                 if (Bezbedan(tabla, i, kolona)) //gledamo da li moze da se postavi
                 {
                     tabla[i, kolona] = 1; //stavljamo damu
                     if (NadjiResenje(tabla, kolona + 1, ispis) == true) //ukoliko je resenje tacno, ispisacemo ga
                     {
-                        Ispisi(tabla,ispis);
+                        Ispisi(tabla, ispis);
                     }
                     tabla[i, kolona] = 0; //ako ne uspemo da dodjemo do poslednje kolone, znaci da ne dolazimo do resenja; BACKTRACKING, brisemo poslednju postavljenu damu i idemo dalje
                 }
@@ -66,6 +66,7 @@ namespace projekatdame
         }
         static void Main(string[] args)
         {
+            Console.WriteLine("Dobrodosli u program dame! Ovaj program ispisuje na koje sve nacine mozemo ispisati zadati broj dama tako da nijedna ne napada drugu.");
             string nazivfajla = "fajl" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".txt"; //naziv fajla sadrzi datum kada ce tekstualni fajl biti ispisan
             StreamWriter ispis = new StreamWriter(nazivfajla); //definisanje streamwritera koji pravi novi fajl u kome ce biti ispis
             Console.Write("Unesite broj dama: ");
@@ -76,6 +77,7 @@ namespace projekatdame
             {
                 Console.WriteLine("Broj resenja: " + brojac);
                 Console.WriteLine("Kako biste videli sva resenja, pogledajte fajl " + Directory.GetCurrentDirectory() + "\\" + nazivfajla);
+                Console.WriteLine("Dame su oznacene sa brojem 1");
             }
             else
             {
